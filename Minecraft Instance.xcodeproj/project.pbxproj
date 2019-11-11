@@ -257,7 +257,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Minecraft Instance/Minecraft_Instance.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = V2EPDFA9PV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Minecraft Instance/Info.plist";
@@ -279,7 +279,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Minecraft Instance/Minecraft_Instance.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = V2EPDFA9PV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Minecraft Instance/Info.plist";
