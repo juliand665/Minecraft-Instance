@@ -10,7 +10,7 @@ var givenArgs = CommandLine.arguments
 
 let defaults = UserDefaults.standard
 
-let javaArgs: [String]
+let args: [String]
 // see if we're being launched by the launcher
 if givenArgs.contains("--accessToken") {
 	// copy the libraries so we can reuse them on next launch
@@ -20,16 +20,15 @@ if givenArgs.contains("--accessToken") {
 		try fileManager.copyItem(at: path, to: libraryPath)
 		givenArgs[index] = "-Djava.library.path=\(libraryPath.path)"
 	}
-	javaArgs = Array(givenArgs.dropFirst())
+	args = Array(givenArgs.dropFirst())
 	print("saving to defaults!")
-	defaults.set(javaArgs, forKey: "latestArgs")
+	defaults.set(args, forKey: "latestArgs")
 } else {
 	print("loading from defaults!")
-	guard let storedArgs = defaults.array(forKey: "latestArgs") as? [String] else {
-		fatalError("no args passed; no stored args available")
-	}
+	guard let storedArgs = defaults.array(forKey: "latestArgs") as? [String]
+		else { fatalError("no args passed; no stored args available") }
 	dump(storedArgs)
-	javaArgs = storedArgs
+	args = storedArgs
 }
 
 let environmentVars = Array((0...)
@@ -41,7 +40,7 @@ let environmentVars = Array((0...)
 
 let string = """
 arguments:
-\(javaArgs.map { "• \($0)" }.joined(separator: "\n"))
+\(args.map { "• \($0)" }.joined(separator: "\n"))
 
 path: \(Bundle.main.executablePath!)
 url: \(Bundle.main.executableURL!)
@@ -51,9 +50,16 @@ environment:
 """
 print(string)
 
-// TODO: argument!
-let desktop = try fileManager.url(for: .desktopDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-try string.data(using: .utf8)!.write(to: desktop.appendingPathComponent("output.txt"))
+let javaArgs = try args.filter { arg in
+	switch arg {
+	case "--debug-minecraft-instance":
+		let desktop = try fileManager.url(for: .desktopDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+		try string.data(using: .utf8)!.write(to: desktop.appendingPathComponent("output.txt"))
+		return false // don't pass on to java
+	default:
+		return true
+	}
+}
 
 setenv("CFProcessPath", Bundle.main.executablePath!, 1)
 
