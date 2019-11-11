@@ -8,3 +8,6 @@ playground.xcworkspace
 # Swift Package Manager
 /.build
 /Packages
+
+# Custom Stuff
+Export/
